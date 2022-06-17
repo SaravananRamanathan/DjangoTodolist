@@ -1,0 +1,40 @@
+{% extends 'main/base.html' %}
+{%block title%} Displaying ToDoList's {%endblock%}
+
+{%block mainHeading%} 
+<label>
+    <span class="navbar-text custom-white-text unselectable">Display</span>
+</label>
+{%endblock%}
+
+{%block content%}
+    
+        <!--<h4>ToDoList's:</h4>-->
+        <table 
+        class="table table-hover table-striped table-dark custom-display-table"
+        id="display-table"
+        >
+        <thead>
+            <tr>
+                <th scope="col" class="unselectable">#</th>
+                <th scope="col" class="unselectable">Name</th>
+            </tr>
+        </thead>  
+            <tbody class="display-table-body">
+            {%for i in data%}
+                <tr data-toggle="collapse" data-target=".dataid{{i.id}}" data-display-table-id={{i.id}}> 
+                    <th scope="row" class="unselectable">{{i.ROWNUM}}</td>  
+                    <td >{{i.name}}</td> 
+                </tr>
+
+                <tr class="collapse dataid{{i.id}}" data-show-id={{i.id}}>
+                    <td><button type="button" class="btn btn-success" >Show</button></td>
+                </tr>
+                <tr class="collapse dataid{{i.id}}" data-delete-id={{i.id}}>
+                    <td><button type="button" class="btn btn-danger" >Delete</button></td>
+                </tr>
+
+            {%endfor%}
+            </tbody>
+        </table>
+{%endblock%}

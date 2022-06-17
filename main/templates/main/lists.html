@@ -1,0 +1,57 @@
+{% extends 'main/base.html' %}
+{%block title%} view todolist {%endblock%}
+
+
+{%block mainHeading%}
+    {%if headingName%}
+    <div class="navbar-text custom-white-text unselectable">TaDoList: {{headingName}}</div>
+    {%else%}
+    <span class="navbar-text custom-error-text unselectable">Error-no such list</span>
+    {%endif%}
+{%endblock%}
+
+{%block content%}
+<form method="post",action="#">
+ {% csrf_token %}
+ {%if list.exists%}
+  {%for data in list%}
+    <!--<h1>{{data.name}}</h1>-->
+        {%if data.item_set.all.exists%}
+         {%for i in data.item_set.all%}
+           <div class="input-group mb-3">
+               <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        {%if i.complete == True%} 
+                        <input type="checkbox" value="clicked" name="c{{i.id}}" checked>
+                        {%elif i.complete == False%} 
+                        <input type="checkbox" value="clicked" name="c{{i.id}}">  
+                        {%endif%}
+                    </div>
+                </div>
+                <input type="text" value="{{i.text}}" name="item-name{{i.id}}" class="form-control todolist-items"/>
+                <div class="input-group-append">
+                        <button type="button" class="btn btn-outline-danger btn-sm todolist-item-delete" data-todolist-item-id={{i.id}}>delete</button>
+                        
+                        <!--<button type="submit" name="deleteItem" value={{i.id}} class="btn btn-outline-danger btn-sm">delete</button>                        
+                        -->
+                </div>
+                
+            </div>
+         {%endfor%}
+        {%else%}
+        <h4>this toDoList, does not have any items in it yet. lets change that, add a new item to this list...</h4>
+        {%endif%}
+  {%endfor%}
+    
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <button type="submit" name="newItem" value="newItem" class="btn btn-success">newItem</button>
+    </div>
+    <input type="text" name="itemName">
+   </div> 
+    <button type="submit" name="save" value="save" class="btn btn-success">save</button>
+ {%else%}
+  <h4>toDoList not found for id:{{id}}</h4>
+ {%endif%}
+</form> 
+{%endblock%}

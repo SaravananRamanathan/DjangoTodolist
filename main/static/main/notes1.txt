@@ -1,0 +1,65 @@
+<script>
+
+new Vue({
+    el: '#table',
+    components: {
+      'BootstrapTable': BootstrapTable
+    },
+    data: {
+      columns: [
+        {
+          title: 'Item ID',
+          field: 'id'
+        },
+        {
+          field: 'name',
+          title: 'Item Name'
+        }, {
+          field: 'price',
+          title: 'Item Price'
+        }
+      ],
+      data: [
+        {
+          id: 1,
+          name: 'Item 1',
+          price: '$1'
+        },
+        {
+          id: 2,
+          name: 'Item 2',
+          price: '$2'
+        }
+      ],
+      options: {
+        search: true,
+        showColumns: true
+      },
+      onClickRow(row, $element, field) {
+         alert("field:"+field+"-"+"row.name:"+row.name+"-"+"row.id"+row.id);
+    }
+    }
+  })
+</script>
+
+
+
+
+
+
+<div id="table">
+            <bootstrap-table :columns="columns" :data={{datatest}} :options="options" @on-click-row="onClickRow"></bootstrap-table>
+</div>
+
+
+
+
+
+<!--{%block mainHeading%} 
+view data
+{%endblock%}-->
+
+
+
+
+user logged-in: {{user.is_authenticated}}

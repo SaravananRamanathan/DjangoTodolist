@@ -1,0 +1,22 @@
+{% extends "main/base.html" %}
+
+{%block title%} Log in {%endblock%}
+
+{%block mainHeading%}
+<span class="navbar-text custom-white-text unselectable">Log in</span>
+{%endblock%}
+
+{%load crispy_forms_tags%}
+
+{%block content%}
+    <h3>you are already logged in , log out to log in as a different user.<h3>
+{%endblock%}
+
+{%block notloggedin%}
+<form method="POST" class="form-group">
+    {% csrf_token %}
+    {{form|crispy}}
+    <button type="submit" class="btn btn-success">login</button>
+    <p>Dont't have an account?<a href="/register">Create one</a></p>
+</form>
+{%endblock%}

@@ -10,6 +10,8 @@
     {%endif%}
 {%endblock%}
 
+{%load crispy_forms_tags%}
+
 {%block content%}
 <form method="post",action="#">
  {% csrf_token %}
@@ -43,15 +45,54 @@
         {%endif%}
   {%endfor%}
     
-  <div class="input-group mb-3">
+  <!---<div class="input-group mb-3">
     <div class="input-group-prepend">
         <button type="submit" name="newItem" value="newItem" class="btn btn-success">newItem</button>
     </div>
     <input type="text" name="itemName">
-   </div> 
+   </div>-->
     <button type="submit" name="save" value="save" class="btn btn-success">save</button>
- {%else%}
-  <h4>toDoList not found for id:{{id}}</h4>
- {%endif%}
-</form> 
+    <br></br>
+    
+</form>
+
+<form method="post" action="#" class="form-inline">
+    {% csrf_token %}
+    <!--{{form|crispy}}-->
+    <div class="panel panel-default">
+        <hr class="custom-panel-heading-line"></hr>
+        <div class="panel-heading">Add New Items</div>
+        <hr class="custom-panel-heading-line"></hr>
+    
+        <table>
+            {% for field in form %}
+                <div class="fieldWrapper">
+                    <!--{{ field.errors }} rendering custom errors-->
+                    {% for error in field.errors %} 
+                        <p  style="color: red">{{error}}</p>
+                    {% endfor %}
+                    <tr>
+                    <td>{{ field.label_tag }}</td>
+                    <td>{{ field }}</td>
+                    </tr>
+                </div>
+            {% endfor %}    
+            <tr>
+                <!--merging 2 cells to center button. if needa  border :  border: 1px solid -->
+                <td colspan="2">
+                    <div style="text-align: center; margin-left: -9rem;">
+                    <button type="submit" name="newItem" value="newItem" class="btn btn-success">newItem</button>        
+                    </div>
+                </td>
+            </tr>
+        </table>
+        
+        
+        
+    </div>
+    
+</form>
+{%else%}
+<h4>toDoList not found for id:{{id}}</h4>
+{%endif%}
 {%endblock%}

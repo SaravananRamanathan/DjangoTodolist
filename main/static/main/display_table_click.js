@@ -1,4 +1,16 @@
 
+
+/*
+changed my mind to use pip install django-bootstrap-datepicker-plus insterd of regular bootstrap one.
+let endDate = document.getElementById('endDate')
+
+endDate.addEventListener('change',(e)=>{
+  let endDateVal = e.target.value
+  document.getElementById('endDateSelected').innerText = endDateVal
+}*/ 
+
+
+
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {

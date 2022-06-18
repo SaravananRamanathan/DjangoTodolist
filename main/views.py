@@ -5,8 +5,11 @@ can create multiple views here.
 from urllib import response
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
-from .forms import CreateNewList
+from .forms import CreateNewList,CreateNewItem
 from . import models
+from bootstrap_datepicker_plus.widgets import DateTimePickerInput #TODO --sort of stoped working with bootstrap date picker for now.
+
+
 # Create your views here.
 
 def todolist_item_delete_request(request):
@@ -67,8 +70,14 @@ def id(response,idValue:int):
     userId=response.user.id
     todolist = models.ToDoList.objects.filter(id=idValue , user_id=userId)
     print(todolist)
+    headingName:str=None
+    if todolist.exists() :
+        headingName=todolist[0].name;
+    print(f"heading name = {headingName}")
     if response.method=="POST":
         ""
+        form = CreateNewItem(response.POST)
+
         print(f'testing response: {response.POST}')
         if response.POST.get("save"):
             ""
@@ -88,20 +97,43 @@ def id(response,idValue:int):
                         #print(f"{i.complete} {i.text}")
                         #print(f"{'c'+str(i.id)}={response.POST.get('c'+str(i.id))}")
                     i.save()
-        elif response.POST.get("newItem"):
-            ""
-            print("testing newItem button")
-            itemName:str= response.POST.get("itemName")
-            print(f"New item name:{itemName}.")
-            if not itemName.isspace():
-                if len(itemName)>0:
-                    if itemName[0]!=' ':
-                        #print("elibible") 
-                        temp=todolist[0].item_set.all();
-                        print(f"testing  temp {temp}")       
-                        todolist[0].item_set.create(text=itemName,complete=False)
-                        print(f"testing  temp after create: {temp}")   
-            #todolist[0].item_set.create(text=itemName,complete=False)
+        
+        elif form.is_valid():
+            "if data entererd in form is valid"            
+            #Name=form.cleaned_data["name"]
+            #old method
+            """temp = models.ToDoList(name=form.cleaned_data["name"])
+            temp.save()
+            
+            response.user.todolist.add(temp)"""
+            if response.POST.get("newItem"):
+                ""
+
+                #print(form.cleaned_data)
+                print("testing newItem button")
+                itemName:str= form.cleaned_data["title"]
+                description:str = form.cleaned_data["description"]
+                category:str = form.cleaned_data["category"]
+                due_date:str = form.cleaned_data["due_date"]
+                print(f"name={itemName} desc={description} category={category} due_date={due_date}")#testing fields data
+                print(f"New item name:{itemName}.")
+                if not itemName.isspace():
+                    if len(itemName)>0:
+                        if itemName[0]!=' ':
+                            #print("elibible") 
+                            temp=todolist[0].item_set.all();
+                            print(f"testing  temp {temp}")       
+                            todolist[0].item_set.create(text=itemName,complete=False)
+                            print(f"testing  temp after create: {temp}")   
+                #todolist[0].item_set.create(text=itemName,complete=False)
+
+        elif not form.is_valid():
+            "form to add newitems not valid"
+            print("form is not valid.")
+            return render(response,"main/lists.html",{"list":todolist,"id":idValue,"form":form,"headingName":headingName})
+            #return render(request, "form_template.html", ctx}
+
+
         elif response.POST.get("deleteItem"):
             "deleting item"
             id=response.POST.get("deleteItem");
@@ -117,10 +149,11 @@ def id(response,idValue:int):
             self.temp+=1
             return self.temp
 
-    headingName:str=None
-    if todolist.exists() :
-        headingName=todolist[0].name;
-    return render(response,"main/lists.html",{"list":todolist,"id":idValue,"sno":sendToTemplate(),"headingName":headingName})
+    
+    
+    form = CreateNewItem()
+    
+    return render(response,"main/lists.html",{"list":todolist,"id":idValue,"form":form,"sno":sendToTemplate(),"headingName":headingName})
 
 def create(response):
     if response.method == "POST":

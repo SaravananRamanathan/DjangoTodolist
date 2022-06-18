@@ -170,6 +170,19 @@ body::-webkit-scrollbar-thumb{
   left:0;
   margin-left: 10rem !important;
 }
+.dueDateStyle{
+  left:0;
+  margin-top: 15rem !important;
+  margin-left: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.custom-panel-heading-line{
+  border: none;
+  height: 1px;
+  color: #004683; 
+  background-color: #004683;
+}
 /*.todolist-items{
   background-color: white !important;
 }*/

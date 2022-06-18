@@ -13,11 +13,11 @@ class CreateNewList(forms.Form):
     
 
 choices = (
-    (1, "category1"),
-    (2, "category2"),
-    (3, "category3"),
-    (4, "category4"),
-    (5, "category5"),
+    ("category1", "category1"),
+    ("category2", "category2"),
+    ("category3", "category3"),
+    ("category4", "category4"),
+    ("category5", "category5"),
 )
 
 #tring to mkae this method work as a direct validator 

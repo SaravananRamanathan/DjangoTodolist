@@ -85,6 +85,7 @@ def id(response,idValue:int):
             if todolist[0].item_set.all().exists():
                 for i in todolist[0].item_set.all():
                     i.text = response.POST.get('item-name'+str(i.id))
+                    i.description = response.POST.get('description'+str(i.id))
                     if response.POST.get('c'+str(i.id)):
                         ""
                         print("checked case")
@@ -123,7 +124,7 @@ def id(response,idValue:int):
                             #print("elibible") 
                             temp=todolist[0].item_set.all();
                             print(f"testing  temp {temp}")       
-                            todolist[0].item_set.create(text=itemName,complete=False)
+                            todolist[0].item_set.create(text=itemName,complete=False,description=description,category=category,due_date=due_date)
                             print(f"testing  temp after create: {temp}")   
                 #todolist[0].item_set.create(text=itemName,complete=False)
 

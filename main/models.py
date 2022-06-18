@@ -17,6 +17,8 @@ class Item(models.Model):
     todolist = models.ForeignKey(ToDoList,on_delete=models.CASCADE)
     text = models.CharField(max_length=300)
     complete = models.BooleanField()
-
+    description = models.CharField(max_length=300,null=True)
+    category = models.TextField(max_length=50,null=True)
+    due_date = models.DateField(null=True)
     def __str__(self):
         return str(self.text)

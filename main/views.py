@@ -8,7 +8,9 @@ from django.shortcuts import render
 from .forms import CreateNewList,CreateNewItem
 from . import models
 from bootstrap_datepicker_plus.widgets import DateTimePickerInput #TODO --sort of stoped working with bootstrap date picker for now.
-
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.authtoken.models import Token
+#from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -59,9 +61,13 @@ def home(response):
     #testing tables ,so replaced home.html --testing done
     return render(response,"main/home.html",{})
 
+@csrf_exempt
 def apiAccess(response):
     "api access"
-    return render(response,"main/api_access.html")
+    userId=response.user.id
+    token = Token.objects.filter(user_id=userId)
+    print(f"access token: {token[0]}")
+    return render(response,"main/api_access.html",{"token":token[0]})
 
 
 def id(response,idValue:int):

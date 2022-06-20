@@ -82,8 +82,10 @@ def id(response,idValue:int):
     print(f"heading name = {headingName}")
     if response.method=="POST":
         ""
-        form = CreateNewItem(response.POST)
-
+        form = CreateNewItem(response.POST,response.FILES)
+        img1 = response.FILES['image1']
+        img2 = response.FILES['image2']
+        img3 = response.FILES['image3']
         print(f'testing response: {response.POST}')
         if response.POST.get("save"):
             ""
@@ -122,6 +124,19 @@ def id(response,idValue:int):
                 description:str = form.cleaned_data["description"]
                 category:str = form.cleaned_data["category"]
                 due_date:str = form.cleaned_data["due_date"]
+
+                """TODO WORKING"""
+
+                image1 = form.cleaned_data["image1"]
+                image2 = form.cleaned_data["image2"]
+                image3 = form.cleaned_data["image3"]
+                print("testing images")
+                print(image1)
+                print(image2)
+                print(image3)
+                print(img1.name)
+                print(img2.name)
+                print(img3.name)
                 print(f"name={itemName} desc={description} category={category} due_date={due_date}")#testing fields data
                 print(f"New item name:{itemName}.")
                 if not itemName.isspace():
@@ -130,7 +145,7 @@ def id(response,idValue:int):
                             #print("elibible") 
                             temp=todolist[0].item_set.all();
                             print(f"testing  temp {temp}")       
-                            todolist[0].item_set.create(text=itemName,complete=False,description=description,category=category,due_date=due_date)
+                            todolist[0].item_set.create(text=itemName,complete=False,description=description,category=category,due_date=due_date,image1=image1,image2=image2,image3=image3)
                             print(f"testing  temp after create: {temp}")   
                 #todolist[0].item_set.create(text=itemName,complete=False)
 

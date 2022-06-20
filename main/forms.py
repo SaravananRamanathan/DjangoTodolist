@@ -34,7 +34,9 @@ class CreateNewItem(forms.Form):
     description=forms.CharField(label="Description",max_length=250)
     category = forms.TypedChoiceField(choices=choices,coerce=str)
     due_date = forms.DateField(widget = forms.SelectDateWidget,validators=[present_or_future_date])
-    
+    image1 = forms.ImageField(label="Image1")
+    image2 = forms.ImageField(label="Image2")
+    image3 = forms.ImageField(label="Image3") 
     """
     #this method works , trying for something similar
     def clean_date(self):

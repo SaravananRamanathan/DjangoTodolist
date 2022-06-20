@@ -127,6 +127,23 @@
                     </div>
                 </tr>
                 
+                <!--TODO-working-->
+                
+                <tr>
+                    <div class="form-inline">
+                        <div class="control-group custom-control-inline">
+                            <td>
+                            <label class="control-label" for="inputPassword">Image1:</label>
+                            </td>
+                            <div class="controls" >
+                            <td >
+                                <input type="text" value="{{i.image1}}" name="image1{{i.id}}" id="inputPassword" placeholder="Due Date"  class="form-control todolist-items" readonly/>
+                            </td>
+                            </div>
+                        </div>
+                    </div>
+                </tr>
+
                 </table>
                 
                 <div class="input-group-append">
@@ -183,20 +200,20 @@
     
 </form>
 
-<form method="post" action="#" class="form-inline">
+<form method="post" action="#" class="form-inline" enctype="multipart/form-data">
     {% csrf_token %}
     <!--{{form|crispy}}-->
     <div class="panel panel-default">
         <hr class="custom-panel-heading-line"></hr>
         <div class="panel-heading">Add New Items</div>
         <hr class="custom-panel-heading-line"></hr>
-    
+        
         <table>
             {% for field in form %}
                 <div class="fieldWrapper">
                     <!--{{ field.errors }} rendering custom errors-->
                     {% for error in field.errors %} 
-                        <p  style="color: red">{{error}}</p>
+                        <p  style="color: red">{{field.label}} : {{error}}</p>
                     {% endfor %}
                     <tr>
                     <td>{{ field.label_tag }}</td>

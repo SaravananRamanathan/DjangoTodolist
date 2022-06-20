@@ -20,5 +20,8 @@ class Item(models.Model):
     description = models.CharField(max_length=300,null=True)
     category = models.TextField(max_length=50,null=True)
     due_date = models.DateField(null=True)
+    image1 = models.TextField(max_length=100, null=True, blank=True)
+    image2 = models.TextField(max_length=100, null=True, blank=True)
+    image3 = models.TextField(max_length=100, null=True, blank=True)
     def __str__(self):
         return str(self.text)

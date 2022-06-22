@@ -1,11 +1,59 @@
 #api-views
+from cmath import exp
+from urllib import response
 from rest_framework import generics,permissions
 
 from main.models import ToDoList,Item
 from .serializers import TodoSerializer,ItemSerializer
 from django.http import JsonResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 
+from api import serializers
 
+@api_view(['GET','PUT','DELETE'])
+def todolistDetail(request,id,format=None):
+    ""
+    try:
+        todolist=ToDoList.objects.get(id=id)
+    except ToDoList.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method=='GET':
+        ""
+        serializer = TodoSerializer(todolist)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        ""
+        serializer = TodoSerializer(todolist,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        ""
+        todolist.delete()
+        return Response(status=status.HTTP_200_OK)
+@api_view(['GET','POST'])
+def allTodoList(request,format=None):
+    if request.method == 'GET':
+        "a different approch without using generics.ListCreateAPIView"
+        # user = request.user.id
+        # print(f"user_id: {user}")
+        todolist = ToDoList.objects.all()
+        serializer = TodoSerializer(todolist,many=True)
+        
+        return Response(serializer.data)
+
+        #return JsonResponse(serializer.data,safe=False)
+        #return JsonResponse({"todolist:":serializer.data})
+        #return JsonResponse({"error":"Not found"},safe=False)
+    if request.method == 'POST':
+        serializer = TodoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
 class viewItemsViaId(generics.ListCreateAPIView):
     ""
      #specify a serializer class.
